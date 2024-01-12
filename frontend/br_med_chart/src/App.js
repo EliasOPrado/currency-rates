@@ -1,19 +1,52 @@
 import "./App.css";
+import React, { useEffect, useState } from 'react';
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 
-const options = {
-  title: {
-    text: "Currencies",
-  },
-  series: [
-    {
-      data: [1, 2, 3],
-    },
-  ],
-};
-
 function App() {
+  const [exchangeData, setExchangeData] = useState([]);
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const startDate = '2023-01-01';
+        const endDate = '2023-10-05';
+        const targetCurrency = 'JPY';
+
+        const response = await fetch(`http://127.0.0.1:8000/api/currency-rates/?start_date=${startDate}&end_date=${endDate}&target_currency=${targetCurrency}`);
+        const data = await response.json();
+        setExchangeData(data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const options = {
+    chart: {
+      type: 'line', // or any other chart type you prefer
+    },
+    title: {
+      text: 'Exchange Rate Data',
+    },
+    xAxis: {
+      categories: exchangeData.map(entry => entry.date),
+    },
+    yAxis: {
+      title: {
+        text: 'Exchange Rate',
+      },
+    },
+    series: [
+      {
+        name: 'Exchange Rate',
+        data: exchangeData.map(entry => parseFloat(entry.exchange_rate)),
+      },
+    ],
+  };
+
   return (
     <div className="main-container">
       <navbar className="navbar">
@@ -28,7 +61,7 @@ function App() {
             <div className="section base">
               <h3 className="title">Moeda Base</h3>
               <div className="buttons">
-              <h4 className="button-design">USD</h4>
+                <h4 className="button-design">USD</h4>
               </div>
             </div>
             <div className="section ">

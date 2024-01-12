@@ -86,14 +86,14 @@ body {
   width: fit-content;
   padding: 3px 5px 3px 5px;
   background-color: orange;
-  border: 1px solid orangered;
+  border: 2px solid orangered;
   border-radius: 2px;
   margin: 0;
 }
 
 .high-chart {
   display: flex;
-  width: 80%;
+  width: 100vh;
   margin-top: 50px;
   justify-content: right;
   align-items: center;
