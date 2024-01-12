@@ -36,8 +36,6 @@ class CurrencyRateAPIView(APIView):
 
                 # If the data doesn't exist, call the API and insert into the database
                 api_data = get_api_data(current_date_str, target_currency)
-                # print("CURRENT DATE ---->", current_date_str)
-                # print("API DATA @@@------>", )
                 insert_data_into_db(api_data, target_currency)
 
             # Retrieve the data from the database after insertion
@@ -45,6 +43,6 @@ class CurrencyRateAPIView(APIView):
                 date__range=[start_date, end_date], target_currency=target_currency
             )
 
-            return Response({"data": CurrencyRateSerializer(queryset, many=True).data}, status=status.HTTP_200_OK)
+            return Response(CurrencyRateSerializer(queryset, many=True).data, status=status.HTTP_200_OK)
 
         return Response({"message": "Invalid parameters"}, status=status.HTTP_400_BAD_REQUEST)

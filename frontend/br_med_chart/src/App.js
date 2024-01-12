@@ -4,25 +4,40 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 
 function App() {
+  const [endDate, setEndDate] = useState('');
+  const [startDate, setStartDate] = useState('');
   const [exchangeData, setExchangeData] = useState([]);
-  
+  const [targetCurrency, setTargetCurrency] = useState('BRL');
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const startDate = '2023-01-01';
-        const endDate = '2023-10-05';
-        const targetCurrency = 'JPY';
-
-        const response = await fetch(`http://127.0.0.1:8000/api/currency-rates/?start_date=${startDate}&end_date=${endDate}&target_currency=${targetCurrency}`);
-        const data = await response.json();
-        setExchangeData(data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
     fetchData();
-  }, []);
+  }, [targetCurrency, endDate]);
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:8000/api/currency-rates/?start_date=${startDate}&end_date=${endDate}&target_currency=${targetCurrency}`
+      );
+      const data = await response.json();
+      setExchangeData(data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  const handleButtonClick = (newTargetCurrency) => {
+    setTargetCurrency(newTargetCurrency);
+  };
+
+  const handleStartDateChange = (event) => {
+    setStartDate(event.target.value);
+  };
+
+  console.log("END DATE ----->", endDate, startDate)
+
+  const handleEndDateChange = (event) => {
+    setEndDate(event.target.value);
+  };
 
   const options = {
     chart: {
@@ -32,7 +47,7 @@ function App() {
       text: 'Exchange Rate Data',
     },
     xAxis: {
-      categories: exchangeData.map(entry => entry.date),
+      categories: Array.isArray(exchangeData) ? exchangeData.map(entry => entry.date) : [],
     },
     yAxis: {
       title: {
@@ -41,11 +56,12 @@ function App() {
     },
     series: [
       {
-        name: `HAS TO PASS THE DATA WHEN BUTTON IS PRESSED......`,
-        data: exchangeData.map(entry => parseFloat(entry.exchange_rate)),
+        name: `USD / ${targetCurrency}`,
+        data: Array.isArray(exchangeData) ? exchangeData.map(entry => parseFloat(entry.exchange_rate)) : [],
       },
     ],
   };
+  
 
   return (
     <div className="main-container">
@@ -67,10 +83,16 @@ function App() {
             <div className="section ">
               <h3 className="title">Moedas</h3>
               <div className="buttons">
-                <h4 className="button-design">BRL</h4>
-                <h4 className="button-design">EUR</h4>
-                <h4 className="button-design">JPY</h4>
-                <input type="date" id="start" name="trip-start" value="2024-01-12" min="2018-01-01" max="2024-12-31" />
+                <button className="button-design" onClick={() => handleButtonClick('BRL')}>BRL</button>
+                <button className="button-design" onClick={() => handleButtonClick("EUR")}>EUR</button>
+                <button className="button-design" onClick={() => handleButtonClick("JPY")}>JPY</button>
+                <div>
+                <label>Start Date:</label>
+                <input type="date" value={startDate} onChange={handleStartDateChange} max={new Date().toISOString().split('T')[0]} />
+        
+                <label>End Date:</label>
+                <input type="date" value={endDate} onChange={handleEndDateChange} max={new Date().toISOString().split('T')[0]} />
+              </div>
               </div>
             </div>
           </div>

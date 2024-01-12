@@ -47,9 +47,6 @@ def get_api_data(single_date, target_currency):
     response = requests.get(base_url, params=params, headers=headers)
     api_data = response.json()
     
-    print("SINGLE DATE --->", single_date)
-    print("SINGLE DATE 2 --->", api_data['date'])
-    
     # Check if the target_currency data is present in the response
     if target_currency in api_data.get("rates", {}):
         return [api_data]  # Return a list with a single API response
