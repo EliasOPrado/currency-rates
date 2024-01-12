@@ -26,7 +26,7 @@ function App() {
 
   const options = {
     chart: {
-      type: 'line', // or any other chart type you prefer
+      type: 'line', 
     },
     title: {
       text: 'Exchange Rate Data',
@@ -41,7 +41,7 @@ function App() {
     },
     series: [
       {
-        name: 'Exchange Rate',
+        name: `HAS TO PASS THE DATA WHEN BUTTON IS PRESSED......`,
         data: exchangeData.map(entry => parseFloat(entry.exchange_rate)),
       },
     ],
@@ -70,6 +70,7 @@ function App() {
                 <h4 className="button-design">BRL</h4>
                 <h4 className="button-design">EUR</h4>
                 <h4 className="button-design">JPY</h4>
+                <input type="date" id="start" name="trip-start" value="2024-01-12" min="2018-01-01" max="2024-12-31" />
               </div>
             </div>
           </div>
