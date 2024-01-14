@@ -1,14 +1,14 @@
 import "./App.css";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 
 function App() {
-  const [endDate, setEndDate] = useState('');
+  const [endDate, setEndDate] = useState("");
   const [loading, setLoading] = useState(false);
-  const [startDate, setStartDate] = useState('');
+  const [startDate, setStartDate] = useState("");
   const [exchangeData, setExchangeData] = useState([]);
-  const [targetCurrency, setTargetCurrency] = useState('BRL');
+  const [targetCurrency, setTargetCurrency] = useState("BRL");
 
   useEffect(() => {
     fetchData();
@@ -26,7 +26,7 @@ function App() {
         setExchangeData(data);
       }
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error("Error fetching data:", error);
     } finally {
       setLoading(false); // Set loading to false after the request, whether it succeeds or fails
     }
@@ -46,32 +46,35 @@ function App() {
 
   const options = {
     chart: {
-      type: 'line',
-      borderColor: '#ccc',
+      type: "line",
+      borderColor: "#ccc",
       borderRadius: 10,
       borderWidth: 2,
       responsive: true,
-      padding: 10
+      padding: 10,
     },
     title: {
-      text: 'Exchange Rate Data',
+      text: "Exchange Rate Data",
     },
     xAxis: {
-      categories: Array.isArray(exchangeData) ? exchangeData.map(entry => entry.date) : [],
+      categories: Array.isArray(exchangeData)
+        ? exchangeData.map((entry) => entry.date)
+        : [],
     },
     yAxis: {
       title: {
-        text: 'Exchange Rate',
+        text: "Exchange Rate",
       },
     },
     series: [
       {
         name: `USD / ${targetCurrency}`,
-        data: Array.isArray(exchangeData) ? exchangeData.map(entry => parseFloat(entry.exchange_rate)) : [],
+        data: Array.isArray(exchangeData)
+          ? exchangeData.map((entry) => parseFloat(entry.exchange_rate))
+          : [],
       },
     ],
   };
-  
 
   return (
     <div className="main-container">
@@ -82,45 +85,70 @@ function App() {
               <h3 className="title">Moeda Base</h3>
               <div className="buttons">
                 <button className="button-design-fixed">
-                <i className="flag-icon flag-icon-us"></i>
-                USD
+                  <i className="flag-icon flag-icon-us"></i>
+                  USD
                 </button>
               </div>
             </div>
             <div className="section ">
               <h3 className="title">Moedas</h3>
               <div className="buttons">
-                <button className="button-design" onClick={() => handleButtonClick('BRL')} disabled={loading}>
-                <i className="flag-icon flag-icon-br"></i>
-                BRL
+                <button
+                  className="button-design"
+                  onClick={() => handleButtonClick("BRL")}
+                  disabled={loading}
+                >
+                  <i className="flag-icon flag-icon-br"></i>
+                  BRL
                 </button>
-                <button className="button-design" onClick={() => handleButtonClick("EUR")} disabled={loading}>
-                <i className="flag-icon flag-icon-ua"></i>
-                EUR
+                <button
+                  className="button-design"
+                  onClick={() => handleButtonClick("EUR")}
+                  disabled={loading}
+                >
+                  <i className="flag-icon flag-icon-ua"></i>
+                  EUR
                 </button>
-                <button className="button-design" onClick={() => handleButtonClick("JPY")} disabled={loading}>
-                <i className="flag-icon flag-icon-jp"></i>
-                JPY
+                <button
+                  className="button-design"
+                  onClick={() => handleButtonClick("JPY")}
+                  disabled={loading}
+                >
+                  <i className="flag-icon flag-icon-jp"></i>
+                  JPY
                 </button>
               </div>
             </div>
             <div className="dates">
               <div className="start-date">
                 <label>Start Date:</label>
-                <input type="date" className="calendar" value={startDate} onChange={handleStartDateChange} max={new Date().toISOString().split('T')[0]} />
+                <input
+                  type="date"
+                  className="calendar"
+                  value={startDate}
+                  onChange={handleStartDateChange}
+                  max={new Date().toISOString().split("T")[0]}
+                />
               </div>
               <div className="end-date">
                 <label>End Date:</label>
-                <input type="date" className="calendar" value={endDate} onChange={handleEndDateChange} max={new Date().toISOString().split('T')[0]} />
+                <input
+                  type="date"
+                  className="calendar"
+                  value={endDate}
+                  onChange={handleEndDateChange}
+                  max={new Date().toISOString().split("T")[0]}
+                />
               </div>
             </div>
           </div>
           {loading && <div className="loading-spinner">Loading...</div>}
           <div className="high-chart">
             <HighchartsReact
-             containerProps={{ style: {width: "80%", padding: "30px" } }}
-             highcharts={Highcharts} 
-             options={options} />
+              containerProps={{ style: { width: "80%", padding: "30px" } }}
+              highcharts={Highcharts}
+              options={options}
+            />
           </div>
         </div>
       </div>
