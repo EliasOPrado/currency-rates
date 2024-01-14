@@ -17,7 +17,6 @@ class CurrencyRateViewSet(viewsets.ModelViewSet):
     serializer_class = CurrencyRateSerializer
 
 
-
 class CurrencyRateAPIView(APIView):
     @swagger_auto_schema(
         manual_parameters=[

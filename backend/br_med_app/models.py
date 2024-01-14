@@ -1,6 +1,5 @@
 from django.db import models
 
-
 # Create your models here.
 class CurrencyRate(models.Model):
     date = models.DateField()

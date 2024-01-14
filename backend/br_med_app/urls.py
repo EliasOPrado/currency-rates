@@ -6,9 +6,9 @@ app_name = "br_med_app"
 
 router = routers.DefaultRouter()
 
-router.register(r"", CurrencyRateViewSet, basename="currency-rates")
+router.register(r"list-currency-rates", CurrencyRateViewSet, basename="list-currency-rates")
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("currency-rates/", CurrencyRateAPIView.as_view(), name="fetch-currency-rates"),
+    path("currency-rates/", CurrencyRateAPIView.as_view(), name="currency-rates"),
 ]

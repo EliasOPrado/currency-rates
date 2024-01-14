@@ -1,0 +1,1 @@
+web: gunicorn br_med_project.wsgi
