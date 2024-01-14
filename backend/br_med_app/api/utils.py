@@ -4,7 +4,6 @@ import requests
 from br_med_app.models import CurrencyRate
 from decimal import Decimal
 
-# Assuming you have a CurrencyRate model and CurrencyRateSerializer
 
 def insert_data_into_db(api_data, target_currency):
     # Check if api_data is a list and has at least one dictionary

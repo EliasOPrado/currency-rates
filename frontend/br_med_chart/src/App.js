@@ -81,10 +81,10 @@ function App() {
             <div className="section base">
               <h3 className="title">Moeda Base</h3>
               <div className="buttons">
-                <h4 className="button-design-fixed">
+                <button className="button-design-fixed">
                 <i className="flag-icon flag-icon-us"></i>
                 USD
-                </h4>
+                </button>
               </div>
             </div>
             <div className="section ">

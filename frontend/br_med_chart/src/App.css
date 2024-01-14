@@ -2,6 +2,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Roboto', sans-serif;
+  background-color: #f5f5f5;
 }
 
 .main-container {
@@ -23,13 +24,14 @@ body {
 
 .chart-info-holder {
   display: flex;
-  margin: 5px;
+  margin: 20px;
   padding: 10px;
   width: 100%;
   border: 2px solid #ccc;
-  border-radius: 5px;
+  border-radius: 10px;
   flex-direction: column;
-  min-height: 96vh;
+  min-height: 93vh;
+  background-color: white;
 }
 
 .highcharts-container{
@@ -63,15 +65,19 @@ body {
 }
 
 .button-design, .button-design-fixed{
+  display: flex;
   color: white;
-  width: fit-content;
+  width: 80px;
+  height: 30px;
   padding: 3px 5px;
   background-color: orange;
   border: 2px solid orangered;
   border-radius: 2px;
   margin: 0 5px 0 5px;
-  cursor: pointer; /* Set the cursor to pointer on hover */
-  transition: background-color 0.3s; /* Add a smooth transition effect */
+  align-items: center;
+  justify-content: center;
+  cursor: pointer; 
+  transition: background-color 0.3s;
 }
 
 .button-design {

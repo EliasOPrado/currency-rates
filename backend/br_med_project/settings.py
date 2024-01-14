@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'br_med_app',
     'rest_framework',
     'corsheaders',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [

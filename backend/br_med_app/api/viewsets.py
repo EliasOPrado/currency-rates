@@ -8,8 +8,32 @@ from .serializers import CurrencyRateSerializer
 from br_med_app.models import CurrencyRate
 from .utils import get_api_data, insert_data_into_db
 
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 
 class CurrencyRateAPIView(APIView):
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter(
+                "start_date",
+                openapi.IN_QUERY,
+                description="Start date",
+                type=openapi.TYPE_STRING,
+            ),
+            openapi.Parameter(
+                "end_date",
+                openapi.IN_QUERY,
+                description="End date",
+                type=openapi.TYPE_STRING,
+            ),
+            openapi.Parameter(
+                "target_currency",
+                openapi.IN_QUERY,
+                description="The currency to check the changes.",
+                type=openapi.TYPE_STRING,
+            )
+        ]
+    )
     def get(self, request, *args, **kwargs):
         start_date = self.request.query_params.get("start_date")
         end_date = self.request.query_params.get("end_date")
