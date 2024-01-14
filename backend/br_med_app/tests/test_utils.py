@@ -6,14 +6,11 @@ from unittest.mock import patch
 from br_med_app.models import CurrencyRate
 from br_med_app.api.utils import insert_data_into_db, get_api_data
 
+
 class CurrencyRateTest(TestCase):
-    @patch('requests.get')
+    @patch("requests.get")
     def test_get_api_data(self, mock_requests_get):
-        mock_response = {
-            "rates": {"BRL": 5.4},
-            "base": "USD",
-            "date": "2023-01-15"
-        }
+        mock_response = {"rates": {"BRL": 5.4}, "base": "USD", "date": "2023-01-15"}
         mock_requests_get.return_value.json.return_value = mock_response
 
         api_data = get_api_data("2023-01-15", "BRL")
@@ -21,17 +18,15 @@ class CurrencyRateTest(TestCase):
 
     def test_insert_data_into_db(self):
         # Create a mock API data dictionary
-        api_data = [{
-            "date": "2023-01-15",
-            "base": "USD",
-            "rates": {"BRL": 5.4}
-        }]
+        api_data = [{"date": "2023-01-15", "base": "USD", "rates": {"BRL": 5.4}}]
 
         # Call the function with the mock API data and target_currency
         currency_rate = insert_data_into_db(api_data, "BRL")
 
         # Retrieve the CurrencyRate object from the database
-        retrieved_currency_rate = CurrencyRate.objects.get(date="2023-01-15", target_currency="BRL")
+        retrieved_currency_rate = CurrencyRate.objects.get(
+            date="2023-01-15", target_currency="BRL"
+        )
 
         self.assertEqual(currency_rate, retrieved_currency_rate)
         self.assertEqual(retrieved_currency_rate.date, date(2023, 1, 15))

@@ -1,4 +1,4 @@
-import time 
+import time
 from datetime import timedelta, datetime, date
 from rest_framework import status
 from rest_framework import viewsets
@@ -10,6 +10,7 @@ from .utils import get_api_data, insert_data_into_db
 
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
+
 
 class CurrencyRateAPIView(APIView):
     @swagger_auto_schema(
@@ -31,7 +32,7 @@ class CurrencyRateAPIView(APIView):
                 openapi.IN_QUERY,
                 description="The currency to check the changes.",
                 type=openapi.TYPE_STRING,
-            )
+            ),
         ]
     )
     def get(self, request, *args, **kwargs):
@@ -48,14 +49,21 @@ class CurrencyRateAPIView(APIView):
             num_days = (end_date_obj - start_date_obj).days + 1
 
             if num_days > 5:
-                return Response({"message": "Date range exceeds the limit of 5 days"}, status=status.HTTP_400_BAD_REQUEST)
+                return Response(
+                    {"message": "Date range exceeds the limit of 5 days"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
 
             # Iterate over the range of days
             for i in range(num_days):
-                current_date_str = (start_date_obj + timedelta(days=i)).strftime("%Y-%m-%d")
+                current_date_str = (start_date_obj + timedelta(days=i)).strftime(
+                    "%Y-%m-%d"
+                )
 
                 # Check if the data already exists in the database
-                if CurrencyRate.objects.filter(date=current_date_str, target_currency=target_currency).exists():
+                if CurrencyRate.objects.filter(
+                    date=current_date_str, target_currency=target_currency
+                ).exists():
                     continue
 
                 # If the data doesn't exist, call the API and insert into the database
@@ -67,6 +75,11 @@ class CurrencyRateAPIView(APIView):
                 date__range=[start_date, end_date], target_currency=target_currency
             )
 
-            return Response(CurrencyRateSerializer(queryset, many=True).data, status=status.HTTP_200_OK)
+            return Response(
+                CurrencyRateSerializer(queryset, many=True).data,
+                status=status.HTTP_200_OK,
+            )
 
-        return Response({"message": "Invalid parameters"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(
+            {"message": "Invalid parameters"}, status=status.HTTP_400_BAD_REQUEST
+        )

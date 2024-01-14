@@ -25,7 +25,7 @@ def insert_data_into_db(api_data, target_currency):
                 date=date,
                 base_currency=base_currency,
                 target_currency=target_currency,
-                defaults={"exchange_rate": exchange_rate}
+                defaults={"exchange_rate": exchange_rate},
             )
 
             return currency_rate
@@ -36,16 +36,17 @@ def insert_data_into_db(api_data, target_currency):
         # Handle the case when api_data is not a list or is an empty list
         return None
 
+
 def get_api_data(single_date, target_currency):
     base_url = "https://api.vatcomply.com/rates"
 
     # Make API request for the specified date with cache-control headers
     params = {"date": single_date, "base": "USD"}
-    headers = {'Cache-Control': 'no-cache', 'Pragma': 'no-cache'}
+    headers = {"Cache-Control": "no-cache", "Pragma": "no-cache"}
 
     response = requests.get(base_url, params=params, headers=headers)
     api_data = response.json()
-    
+
     # Check if the target_currency data is present in the response
     if target_currency in api_data.get("rates", {}):
         return [api_data]  # Return a list with a single API response
