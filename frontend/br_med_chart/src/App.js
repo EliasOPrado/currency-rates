@@ -50,7 +50,8 @@ function App() {
       borderColor: '#ccc',
       borderRadius: 10,
       borderWidth: 2,
-      padding:500
+      responsive: true,
+      padding: 10
     },
     title: {
       text: 'Exchange Rate Data',
@@ -74,40 +75,52 @@ function App() {
 
   return (
     <div className="main-container">
-      <navbar className="navbar">
-        <h3>Elias Challenge</h3>
-      </navbar>
       <div className="body-container">
-        <div className="left-sidebar">
-          <h3 className="title">Consultas</h3>
-        </div>
         <div className="chart-info-holder">
           <div className="chart-info">
             <div className="section base">
               <h3 className="title">Moeda Base</h3>
               <div className="buttons">
-                <h4 className="button-design">USD</h4>
+                <h4 className="button-design-fixed">
+                <i className="flag-icon flag-icon-us"></i>
+                USD
+                </h4>
               </div>
             </div>
             <div className="section ">
               <h3 className="title">Moedas</h3>
               <div className="buttons">
-                <button className="button-design" onClick={() => handleButtonClick('BRL')} disabled={loading}>BRL</button>
-                <button className="button-design" onClick={() => handleButtonClick("EUR")} disabled={loading}>EUR</button>
-                <button className="button-design" onClick={() => handleButtonClick("JPY")} disabled={loading}>JPY</button>
-                <div>
+                <button className="button-design" onClick={() => handleButtonClick('BRL')} disabled={loading}>
+                <i className="flag-icon flag-icon-br"></i>
+                BRL
+                </button>
+                <button className="button-design" onClick={() => handleButtonClick("EUR")} disabled={loading}>
+                <i className="flag-icon flag-icon-ua"></i>
+                EUR
+                </button>
+                <button className="button-design" onClick={() => handleButtonClick("JPY")} disabled={loading}>
+                <i className="flag-icon flag-icon-jp"></i>
+                JPY
+                </button>
+              </div>
+            </div>
+            <div className="dates">
+              <div className="start-date">
                 <label>Start Date:</label>
                 <input type="date" className="calendar" value={startDate} onChange={handleStartDateChange} max={new Date().toISOString().split('T')[0]} />
-        
+              </div>
+              <div className="end-date">
                 <label>End Date:</label>
                 <input type="date" className="calendar" value={endDate} onChange={handleEndDateChange} max={new Date().toISOString().split('T')[0]} />
-              </div>
               </div>
             </div>
           </div>
           {loading && <div className="loading-spinner">Loading...</div>}
           <div className="high-chart">
-            <HighchartsReact highcharts={Highcharts} options={options} />
+            <HighchartsReact
+             containerProps={{ style: {width: "80%", padding: "30px" } }}
+             highcharts={Highcharts} 
+             options={options} />
           </div>
         </div>
       </div>
