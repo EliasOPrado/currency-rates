@@ -11,6 +11,12 @@ from .utils import get_api_data, insert_data_into_db
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
+class CurrencyRateViewSet(viewsets.ModelViewSet):
+    http_method_names = ['get']
+    queryset = CurrencyRate.objects.all()
+    serializer_class = CurrencyRateSerializer
+
+
 
 class CurrencyRateAPIView(APIView):
     @swagger_auto_schema(
