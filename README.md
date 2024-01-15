@@ -3,7 +3,7 @@
 Este e um projeto para a demonstração e consumo de API de precificação de moedas.
 
 #### Links para acessar o deploy da documentação da API e o Frontend:
-- [Link da documentação API](https://currency-rate-app.onrender.com/swagger/// "Link da documentação API")
+- [Link da documentação API](https://currency-rate-app.onrender.com/swagger/ "Link da documentação API")
 - [Link do Fronted](https://currency-rates-murex.vercel.app/ "Link do Fronted")
 
 O backend (server) e o banco de dados foram hospedados no render.com:
