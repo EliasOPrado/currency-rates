@@ -151,7 +151,13 @@ i.flag-icon {
   }
 
   .high-chart {
-    width: 100%; /* Adjust width for smaller screens */
-    margin-top: 10px; /* Adjust margin-top for smaller screens */
+    width: 100%;
+    margin-top: 10px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .high-chart {
+    padding: 0;
   }
 }
