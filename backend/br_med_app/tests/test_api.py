@@ -26,7 +26,6 @@ class CurrencyRatesAPITest(APITestCase):
         start_date = "2023-01-09"
         end_date = "2023-01-13"
         target_currency = "BRL"
-        # Make the API request
         response = self.client.get(
             self.url,
             {

@@ -47,11 +47,9 @@ class CurrencyRateAPIView(APIView):
         target_currency = self.request.query_params.get("target_currency")
 
         if start_date and end_date and target_currency:
-            # Parse start and end dates
             start_date_obj = datetime.strptime(start_date, "%Y-%m-%d").date()
             end_date_obj = datetime.strptime(end_date, "%Y-%m-%d").date()
 
-            # Calculate the number of days between start and end
             num_days = (end_date_obj - start_date_obj).days + 1
 
             if num_days > 5:
@@ -60,23 +58,19 @@ class CurrencyRateAPIView(APIView):
                     status=status.HTTP_400_BAD_REQUEST,
                 )
 
-            # Iterate over the range of days
             for i in range(num_days):
                 current_date_str = (start_date_obj + timedelta(days=i)).strftime(
                     "%Y-%m-%d"
                 )
 
-                # Check if the data already exists in the database
                 if CurrencyRate.objects.filter(
                     date=current_date_str, target_currency=target_currency
                 ).exists():
                     continue
 
-                # If the data doesn't exist, call the API and insert into the database
                 api_data = get_api_data(current_date_str, target_currency)
                 insert_data_into_db(api_data, target_currency)
 
-            # Retrieve the data from the database after insertion
             queryset = CurrencyRate.objects.filter(
                 date__range=[start_date, end_date], target_currency=target_currency
             )

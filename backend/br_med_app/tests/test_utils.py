@@ -17,13 +17,10 @@ class CurrencyRateTest(TestCase):
         self.assertEqual(api_data, [mock_response])
 
     def test_insert_data_into_db(self):
-        # Create a mock API data dictionary
         api_data = [{"date": "2023-01-15", "base": "USD", "rates": {"BRL": 5.4}}]
 
-        # Call the function with the mock API data and target_currency
         currency_rate = insert_data_into_db(api_data, "BRL")
 
-        # Retrieve the CurrencyRate object from the database
         retrieved_currency_rate = CurrencyRate.objects.get(
             date="2023-01-15", target_currency="BRL"
         )
