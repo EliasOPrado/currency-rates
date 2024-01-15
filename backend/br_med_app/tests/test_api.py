@@ -1,10 +1,26 @@
+from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
+from br_med_app.models import CurrencyRate
+from br_med_app.api.serializers import CurrencyRateSerializer
 
 
 class CurrencyRatesAPITest(APITestCase):
     def setUp(self):
         self.url = "/api/currency-rates/"
+        self.list_url = reverse("br_med_app:list-currency-rates-list")
+        CurrencyRate.objects.create(
+            date="2023-01-09",
+            base_currency="USD",
+            target_currency="EUR",
+            exchange_rate=1.2,
+        )
+        CurrencyRate.objects.create(
+            date="2023-01-10",
+            base_currency="USD",
+            target_currency="EUR",
+            exchange_rate=1.3,
+        )
 
     def test_currency_rates_endpoint(self):
         start_date = "2023-01-09"
@@ -43,3 +59,12 @@ class CurrencyRatesAPITest(APITestCase):
         self.assertEqual(
             response_data["message"], "Date range exceeds the limit of 5 days"
         )
+
+    def test_list_currency_rates(self):
+        response = self.client.get(self.list_url)
+        serialized_data = CurrencyRateSerializer(
+            CurrencyRate.objects.all(), many=True
+        ).data
+        self.assertEqual(len(response.data), 4)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["results"], serialized_data)
