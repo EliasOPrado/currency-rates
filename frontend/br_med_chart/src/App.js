@@ -20,7 +20,7 @@ function App() {
 
       if (startDate && endDate) {
         const response = await fetch(
-          `http://127.0.0.1:8000/api/currency-rates/?start_date=${startDate}&end_date=${endDate}&target_currency=${targetCurrency}`
+          `https://currency-rate-app.onrender.com/api/currency-rates/?start_date=${startDate}&end_date=${endDate}&target_currency=${targetCurrency}`
         );
         const data = await response.json();
         setExchangeData(data);
